@@ -1,4 +1,5 @@
 package app;
+import model.instituto;
 
 import java.util.Scanner;
 
@@ -6,27 +7,32 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
+
+        instituto instituto = new instituto();
+
         Main main = new Main();
-        int opc = main.menu();
+        int opc;
 
         do {
+
+            opc = main.menu();
 
             switch (opc){
 
                 case 1 -> {
-
+                        instituto.nuevoAlumno();
                 }
 
                 case 2 -> {
-
+                    instituto.nuevoProfesor();
                 }
 
                 case 3 -> {
-
+                    instituto.mostrarAlumnos();
                 }
 
                 case 4 -> {
-
+                    instituto.mostrarProfesores();
                 }
 
                 default -> System.out.println("Valor no valido");

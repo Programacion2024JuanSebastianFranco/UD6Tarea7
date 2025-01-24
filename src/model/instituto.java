@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static model.curso.*;
@@ -10,10 +11,10 @@ public class instituto {
 
 
     private  alumno[] alumnos;
-    private static int MAX_ALUMNOS;
+    private static int MAX_ALUMNOS = 2;
     private int totalAlumnos;
     private profesor[] profesores;
-    private static int MAX_PROFESORES;
+    private static int MAX_PROFESORES = 2;
     private int totalProfesores;
 
 
@@ -29,16 +30,60 @@ public class instituto {
 
             System.out.println("Ingrese el nombre del alumno:");
             String nombre = scan.nextLine();
+
             int edad = leerEdad();
             String dni = leerDNI();
             curso curso = leerCurso();
 
             alumno nuevo = new alumno(dni, nombre, edad, curso);
 
+            alumnos[totalAlumnos] = nuevo;
+            totalAlumnos++;
+        } else {
+            System.out.println("Limite maximo de alumnos alcanzado");
+        }
+    }
 
+    public void nuevoProfesor(){
+        if (totalProfesores < MAX_PROFESORES){
+
+            System.out.println("Ingrese el nombre del Profesor:");
+            String nombre = scan.nextLine();
+            int edad = leerEdad();
+            String dni = leerDNI();
+            System.out.println("Ingrese sueldo:");
+            int sueldo = scan.nextInt();
+
+            profesor nuevo = new profesor(dni, nombre, edad, sueldo);
+            profesores[totalProfesores] = nuevo;
+            totalProfesores++;
+        } else {
+            System.out.println("Limite maximo de profesores alcanzado");
+        }
+    }
+
+
+    public String mostrarAlumnos(){
+        StringBuilder salida = new StringBuilder();
+
+        for (model.alumno alumno : alumnos) {
+            salida.append("Alumno: ").append(alumno).append("\n");
         }
 
+        return salida.toString();
     }
+
+    public String mostrarProfesores(){
+        StringBuilder salida = new StringBuilder();
+
+        for (model.profesor profesor: profesores) {
+            salida.append("Alumno: ").append(profesor).append("\n");
+        }
+
+        return salida.toString();
+    }
+
+
 
 
     private int leerEdad(){
@@ -49,14 +94,16 @@ public class instituto {
 
         while (!scan.hasNextInt()) {
             System.out.println("Introduce un valor:");
+            scan.next();
         }
 
         edad = scan.nextInt();
 
         if (edad <= 0){
-
+            System.out.println("La edad debe ser un numero positivo: ");
+            scan.next();
         }
-
+        scan.nextLine();
 
         return edad;
     }
@@ -90,6 +137,7 @@ public class instituto {
             }
         } while (cur < 1 || cur > 3);
 
+        scan.nextLine();
 
         switch (cur){
             case 1 -> cursos = DAM;
@@ -102,4 +150,14 @@ public class instituto {
     }
 
 
+    @Override
+    public String toString() {
+        return "instituto{" +
+                "scan=" + scan +
+                ", alumnos=" + Arrays.toString(alumnos) +
+                ", totalAlumnos=" + totalAlumnos +
+                ", profesores=" + Arrays.toString(profesores) +
+                ", totalProfesores=" + totalProfesores +
+                '}';
+    }
 }
