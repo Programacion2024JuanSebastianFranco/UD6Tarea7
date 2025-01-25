@@ -26,6 +26,6 @@ public class profesor extends persona{
     public String toString() {
         return "profesor{" +
                 "sueldo=" + sueldo +
-                '}';
+                "} " + super.toString();
     }
 }

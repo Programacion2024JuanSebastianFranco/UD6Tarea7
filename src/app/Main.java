@@ -6,9 +6,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Scanner scan = new Scanner(System.in);
-
         instituto instituto = new instituto();
+
+        instituto.cargarDatosPrueba();
 
         Main main = new Main();
         int opc;
@@ -19,29 +19,22 @@ public class Main {
 
             switch (opc){
 
-                case 1 -> {
-                        instituto.nuevoAlumno();
-                }
+                case 1 -> instituto.nuevoAlumno();
 
-                case 2 -> {
-                    instituto.nuevoProfesor();
-                }
 
-                case 3 -> {
-                    instituto.mostrarAlumnos();
-                }
+                case 2 -> instituto.nuevoProfesor();
 
-                case 4 -> {
-                    instituto.mostrarProfesores();
-                }
+
+                case 3 -> System.out.println(instituto.mostrarAlumnos());
+
+
+                case 4 -> System.out.println(instituto.mostrarProfesores());
+
 
                 default -> System.out.println("Valor no valido");
 
             }
         } while (opc != 5);
-
-
-
     }
 
 
