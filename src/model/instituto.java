@@ -1,4 +1,6 @@
 package model;
+import app.Main;
+
 import java.util.Scanner;
 import static model.curso.*;
 
@@ -10,9 +12,9 @@ public class instituto {
 
     Scanner scan = new Scanner(System.in); // Instancia para la entrada del usuario
 
-    // Declaración de variables privadas (no comentadas, como pediste).
+    // Declaración de variables privadas.
     private alumno[] alumnos;
-    private static int MAX_ALUMNOS = 2;
+    private static int MAX_ALUMNOS = 3;
     private int totalAlumnos;
     private profesor[] profesores;
     private static int MAX_PROFESORES = 2;
@@ -36,7 +38,7 @@ public class instituto {
     public void cargarDatosPrueba() {
         if (totalAlumnos < MAX_ALUMNOS) {
             // Se cargan dos alumnos de prueba.
-            alumnos[totalAlumnos++] = new alumno("12345678A", "Alumno1", 18, DAM);
+            alumnos[totalAlumnos++] = new alumno("12345678Z", "Alumno1", 18, DAM);
             alumnos[totalAlumnos++] = new alumno("87654321B", "Alumno2", 20, DAW);
         }
 
@@ -144,6 +146,36 @@ public class instituto {
         return salida.toString();
     }
 
+
+    public int buscarAlumno(String dni) {
+
+        int hay = -1;
+
+        for (int i = 0; i < alumnos.length; i++){
+            if(alumnos[i].getDni().equals(dni)){
+                System.out.print("Alumno en posicion: ");
+                hay = i;
+            }
+        }
+
+        return hay;
+    }
+
+    public int buscarProfesor(String dni) {
+
+        int hay = -1;
+
+        for (int i = 0; i < profesores.length; i++){
+            if(profesores[i].getDni().equals(dni)){
+                System.out.println("Alumno en posicion: " + i);
+                hay = i;
+            }
+        }
+
+        return hay;
+    }
+
+
     /**
      * Método auxiliar para leer la edad del usuario, asegurándose de que sea un número válido.
      *
@@ -182,11 +214,24 @@ public class instituto {
 
         System.out.println("Introduce el DNI:");
         do {
+
             dni = scan.nextLine();
             if (!persona.validarNIF(dni)) {
-                System.out.println("DNI invalido, introducelo de nuevo:");
+                System.out.println("DNI invalido, introducelo de nuevo: ");
             }
-        } while (!persona.validarNIF(dni));
+            for (model.alumno alumno : alumnos) {
+                if (alumno.getDni().equals(dni)) {
+                    System.out.print("DNI ya existente, introduzcalo denuevo: ");
+                }
+            }
+                for (model.profesor profesor : profesores) {
+                    if (profesor.getDni().equals(dni)) {
+                        System.out.print("DNI ya existente, introduzcalo denuevo: ");
+                    }
+                }
+
+            }
+            while (!persona.validarNIF(dni)) ;
 
         return dni;
     }

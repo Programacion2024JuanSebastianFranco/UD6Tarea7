@@ -8,13 +8,14 @@ public class persona {
 
 
     // Constructor
-
     public persona(String dni, String nombre, int edad) {
         this.dni = dni;
         this.nombre = nombre;
         this.edad = edad;
     }
 
+    public persona() {
+    }
 
     // Setters y Getters
     public String getDni() {
@@ -22,7 +23,7 @@ public class persona {
     }
 
     public void setDni(String dni) {
-        if (validarNIF(dni)){
+        if (validarNIF(dni)) {
             this.dni = dni;
         } else {
             this.dni = "SinDNI";
@@ -82,6 +83,23 @@ public class persona {
         }
 
         return validacion;
+    }
+
+
+
+    // Sobrescribir el método equals para comparar personas por su DNI
+    @Override
+    public boolean equals(Object obj) {
+        boolean igual = true;
+
+        // Verificar si el objeto no es nulo y pertenece a la misma clase
+        if (obj == null || getClass() != obj.getClass()) {
+            igual = false;
+        }
+
+        // Convertir el objeto a la misma clase y comparar DNI
+        persona otraPersona = (persona) obj;
+        return dni.equals(otraPersona.dni) && igual;
     }
 
 

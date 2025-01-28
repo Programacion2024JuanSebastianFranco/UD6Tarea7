@@ -9,6 +9,7 @@ public class alumno extends persona{
         this.curso = curso;
     }
 
+
     @Override
     public String toString() {
         return "alumno{" +

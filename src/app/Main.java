@@ -1,11 +1,13 @@
 package app;
 import model.instituto;
+import model.persona;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
+        Scanner scan = new Scanner(System.in);
         instituto instituto = new instituto();
 
         instituto.cargarDatosPrueba();
@@ -30,11 +32,24 @@ public class Main {
 
                 case 4 -> System.out.println(instituto.mostrarProfesores());
 
+                case 5 -> {
+                    System.out.println("DNI a buscar: ");
+                    String dni = scan.nextLine();
+                    System.out.println(instituto.buscarAlumno(dni));
+                }
+
+                case 6 -> {
+                    System.out.println("DNI a buscar: ");
+                    String dni = scan.nextLine();
+                    System.out.println(instituto.buscarProfesor(dni));
+                }
+
+
 
                 default -> System.out.println("Valor no valido");
 
             }
-        } while (opc != 5);
+        } while (opc != 9);
     }
 
 
@@ -49,12 +64,14 @@ public class Main {
                     2. Nuevo Profesor
                     3. Mostrar Alumnos
                     4. Mostrar Profesores
-                    5. Salir
+                    5. Buscar Alumno
+                    6. Buscar Profesor
+                    9. Salir
                     """);
             opc = scan.nextInt();
 
 
-        } while (opc < 1 || opc > 4);
+        } while (opc < 1 || opc > 9);
         return opc;
     }
 
