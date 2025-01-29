@@ -90,17 +90,18 @@ public class persona {
     // Sobrescribir el método equals para comparar personas por su DNI
     @Override
     public boolean equals(Object obj) {
-        boolean igual = true;
-
-        // Verificar si el objeto no es nulo y pertenece a la misma clase
-        if (obj == null || getClass() != obj.getClass()) {
-            igual = false;
+        if (this == obj) {
+            return true;
         }
 
-        // Convertir el objeto a la misma clase y comparar DNI
+        if (obj == null || !(obj instanceof persona)) {
+            return false;
+        }
+
         persona otraPersona = (persona) obj;
-        return dni.equals(otraPersona.dni) && igual;
+        return this.dni.equals(otraPersona.dni);
     }
+
 
 
     @Override

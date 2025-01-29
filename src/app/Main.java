@@ -1,7 +1,8 @@
 package app;
 import model.alumno;
+import model.curso;
 import model.instituto;
-import model.persona;
+import model.profesor;
 
 import java.util.Scanner;
 
@@ -48,25 +49,24 @@ public class Main {
                 case 7 -> {
                     System.out.println("Posicion del alumno a borrar: ");
                     int posicion = scan.nextInt();
-                    System.out.println("Alumno eliminado.");
                     System.out.println(instituto.borrarAlumno(posicion));
                 }
 
                 case 8 -> {
                     System.out.println("Posicion del profesor a borrar: ");
                     int posicion = scan.nextInt();
-                    System.out.println("Profesor eliminado.");
                     System.out.println(instituto.borrarProfesor(posicion));
                 }
 
                 case 9 -> {
-                    System.out.println("Posicion del ");
-
+                    alumno alumno = new alumno("12345678z", "juan", 22, curso.DAW);
+                    instituto.modificarAlumno(alumno);
                 }
 
                 case 10 -> {
+                     profesor profesor = new profesor("11223344C", "jaime", 23, 1300);
+                    instituto.modificarProfesor(profesor);
                 }
-
 
 
 
@@ -74,7 +74,7 @@ public class Main {
                 default -> System.out.println("Valor no valido");
 
             }
-        } while (opc != 9);
+        } while (opc != 11);
     }
 
 
@@ -93,12 +93,14 @@ public class Main {
                     6. Buscar Profesor
                     7. Borrar Alumno
                     8. Borrar Profesor
-                    9. Salir
+                    9. Modificar Alumno
+                    10. Modificar Profesor
+                    11. Salir
                     """);
             opc = scan.nextInt();
 
 
-        } while (opc < 1 || opc > 9);
+        } while (opc < 1 || opc > 11);
         return opc;
     }
 

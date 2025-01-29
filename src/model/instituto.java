@@ -1,5 +1,4 @@
 package model;
-import java.util.Arrays;
 import java.util.Scanner;
 import static model.curso.*;
 
@@ -182,13 +181,18 @@ public class instituto {
 
     public String borrarAlumno(int posicion) {
         if (posicion < 0 || posicion >= alumnos.length) {
-            return "Posición inválida";
+            System.out.println("Posicion invalida");
+        } else if (totalAlumnos == 0){
+            System.out.println("No hay alumnos");
         }
-
-        for (int i = 0; i < alumnos.length; i++){
-            if (i == posicion){
-                alumnos[i] = alumnos[i + 1];
-                alumnos[i] = null;
+        else {
+            totalAlumnos--;
+            for (int i = 0; i < alumnos.length; i++) {
+                if (i == posicion) {
+                    alumnos[i] = alumnos[i + 1];
+                    alumnos[totalAlumnos] = null;
+                    System.out.println("Alumno eliminado.");
+                }
             }
         }
 
@@ -198,13 +202,18 @@ public class instituto {
 
     public String borrarProfesor(int posicion) {
         if (posicion < 0 || posicion >= profesores.length) {
-            return "Posición inválida";
+            System.out.println("Posicion invalida");
+        } else if(totalProfesores == 0){
+            System.out.println("No hay alumnos");
         }
-
-        for (int i = 0; i < profesores.length; i++){
-            if (i == posicion){
-                profesores[i] = profesores[i + 1];
-                profesores[i] = null;
+        else {
+            totalProfesores--;
+            for (int i = 0; i < profesores.length; i++) {
+                if (i == posicion) {
+                    profesores[i] = profesores[i + 1];
+                    profesores[totalProfesores] = null;
+                    System.out.println("Profeso eliminado.");
+                }
             }
         }
 
@@ -212,19 +221,19 @@ public class instituto {
     }
 
 
-    public String modificarAlumno(alumno nuevoAlumno) {
+    public String modificarAlumno(alumno alumno) {
         for (int i = 0; i < alumnos.length; i++) {
-            if (alumnos[i] != null && alumnos[i].getDni().equalsIgnoreCase(nuevoAlumno.getDni())) {
-                alumnos[i] = nuevoAlumno;
+            if (alumno.equals(alumnos[i])) {
+                alumnos[i] = alumno;
             }
         }
         return mostrarAlumnos();
     }
 
-    public String modificarProfesor(profesor nuevoProfesor) {
+    public String modificarProfesor(profesor profesor) {
         for (int i = 0; i < profesores.length; i++) {
-            if (profesores[i] != null && profesores[i].getDni().equalsIgnoreCase(nuevoProfesor.getDni())) {
-                profesores[i] = nuevoProfesor;
+            if (profesor.equals(profesores[i])) {
+                profesores[i] = profesor;
             }
         }
         return mostrarProfesores();
@@ -285,7 +294,6 @@ public class instituto {
                     dniExiste = true;
                 }
             }
-                    System.out.println("Profesor eliminado: ");
 
         } while (!dniValido || dniExiste);
 
