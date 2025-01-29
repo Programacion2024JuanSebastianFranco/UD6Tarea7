@@ -1,4 +1,5 @@
 package app;
+import model.alumno;
 import model.instituto;
 import model.persona;
 
@@ -44,6 +45,30 @@ public class Main {
                     System.out.println(instituto.buscarProfesor(dni));
                 }
 
+                case 7 -> {
+                    System.out.println("Posicion del alumno a borrar: ");
+                    int posicion = scan.nextInt();
+                    System.out.println("Alumno eliminado.");
+                    System.out.println(instituto.borrarAlumno(posicion));
+                }
+
+                case 8 -> {
+                    System.out.println("Posicion del profesor a borrar: ");
+                    int posicion = scan.nextInt();
+                    System.out.println("Profesor eliminado.");
+                    System.out.println(instituto.borrarProfesor(posicion));
+                }
+
+                case 9 -> {
+                    System.out.println("Posicion del ");
+
+                }
+
+                case 10 -> {
+                }
+
+
+
 
 
                 default -> System.out.println("Valor no valido");
@@ -66,6 +91,8 @@ public class Main {
                     4. Mostrar Profesores
                     5. Buscar Alumno
                     6. Buscar Profesor
+                    7. Borrar Alumno
+                    8. Borrar Profesor
                     9. Salir
                     """);
             opc = scan.nextInt();

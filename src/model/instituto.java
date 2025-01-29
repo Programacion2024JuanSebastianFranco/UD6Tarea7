@@ -1,6 +1,5 @@
 package model;
-import app.Main;
-
+import java.util.Arrays;
 import java.util.Scanner;
 import static model.curso.*;
 
@@ -20,6 +19,7 @@ public class instituto {
     private static int MAX_PROFESORES = 2;
     private int totalProfesores;
 
+
     /**
      * Constructor que inicializa los arreglos de alumnos y profesores,
      * y establece los contadores de total de alumnos y profesores.
@@ -30,6 +30,7 @@ public class instituto {
         totalProfesores = 0;
         totalAlumnos = 0;
     }
+
 
     /**
      * Método para cargar datos de prueba para alumnos y profesores.
@@ -48,6 +49,7 @@ public class instituto {
             profesores[totalProfesores++] = new profesor("44332211D", "Profesor2", 35, 2500);
         }
     }
+
 
     /**
      * Método para registrar un nuevo alumno en el instituto.
@@ -71,6 +73,7 @@ public class instituto {
         }
     }
 
+
     /**
      * Método para registrar un nuevo profesor en el instituto.
      * Permite al usuario ingresar nombre, edad, DNI y sueldo.
@@ -93,6 +96,7 @@ public class instituto {
             System.out.println("Limite maximo de profesores alcanzado");
         }
     }
+
 
     /**
      * Método para mostrar la lista de alumnos registrados.
@@ -119,6 +123,7 @@ public class instituto {
 
         return salida.toString();
     }
+
 
     /**
      * Método para mostrar la lista de profesores registrados.
@@ -148,12 +153,11 @@ public class instituto {
 
 
     public int buscarAlumno(String dni) {
-
         int hay = -1;
 
-        for (int i = 0; i < alumnos.length; i++){
-            if(alumnos[i].getDni().equals(dni)){
-                System.out.print("Alumno en posicion: ");
+        // Recorremos el array de alumnos
+        for (int i = 0; i < alumnos.length; i++) {
+            if (alumnos[i] != null && alumnos[i].getDni().equalsIgnoreCase(dni)) {
                 hay = i;
             }
         }
@@ -161,18 +165,61 @@ public class instituto {
         return hay;
     }
 
-    public int buscarProfesor(String dni) {
 
+    public int buscarProfesor(String dni) {
         int hay = -1;
 
-        for (int i = 0; i < profesores.length; i++){
-            if(profesores[i].getDni().equals(dni)){
-                System.out.println("Alumno en posicion: " + i);
+        // Recorremos el array de profesores
+        for (int i = 0; i < profesores.length; i++) {
+            if (profesores[i] != null && profesores[i].getDni().equalsIgnoreCase(dni)) {
                 hay = i;
             }
         }
 
         return hay;
+    }
+
+
+    public String borrarAlumno(int posicion) {
+        if (posicion < 0 || posicion >= alumnos.length) {
+            return "Posición inválida";
+        }
+
+        System.arraycopy(alumnos, posicion + 1, alumnos, posicion, alumnos.length - posicion - 1);
+        alumnos = Arrays.copyOf(alumnos, alumnos.length - 1);
+
+        return mostrarAlumnos();
+    }
+
+
+    public String borrarProfesor(int posicion) {
+        if (posicion < 0 || posicion >= profesores.length) {
+            return "Posición inválida";
+        }
+
+        System.arraycopy(profesores, posicion + 1, profesores, posicion, profesores.length - posicion - 1);
+        profesores = Arrays.copyOf(profesores, profesores.length - 1);
+
+        return mostrarProfesores();
+    }
+
+
+    public String modificarAlumno(alumno nuevoAlumno) {
+        for (int i = 0; i < alumnos.length; i++) {
+            if (alumnos[i] != null && alumnos[i].getDni().equalsIgnoreCase(nuevoAlumno.getDni())) {
+                alumnos[i] = nuevoAlumno;
+            }
+        }
+        return mostrarAlumnos();
+    }
+
+    public String modificarProfesor(profesor nuevoProfesor) {
+        for (int i = 0; i < profesores.length; i++) {
+            if (profesores[i] != null && profesores[i].getDni().equalsIgnoreCase(nuevoProfesor.getDni())) {
+                profesores[i] = nuevoProfesor;
+            }
+        }
+        return mostrarProfesores();
     }
 
 
@@ -204,6 +251,7 @@ public class instituto {
         return edad;
     }
 
+
     /**
      * Método auxiliar para leer el DNI del usuario, asegurándose de que sea válido.
      *
@@ -211,30 +259,31 @@ public class instituto {
      */
     private String leerDNI() {
         String dni;
+        boolean dniValido;
+        boolean dniExiste;
 
         System.out.println("Introduce el DNI:");
+
         do {
-
             dni = scan.nextLine();
-            if (!persona.validarNIF(dni)) {
-                System.out.println("DNI invalido, introducelo de nuevo: ");
-            }
-            for (model.alumno alumno : alumnos) {
-                if (alumno.getDni().equals(dni)) {
-                    System.out.print("DNI ya existente, introduzcalo denuevo: ");
-                }
-            }
-                for (model.profesor profesor : profesores) {
-                    if (profesor.getDni().equals(dni)) {
-                        System.out.print("DNI ya existente, introduzcalo denuevo: ");
-                    }
-                }
+            dniValido = persona.validarNIF(dni);
+            dniExiste = false;
 
+            if (!dniValido) {
+                System.out.println("DNI inválido, introdúcelo de nuevo:");
+            } else {
+                if (buscarAlumno(dni) != -1 || buscarProfesor(dni) != -1) {
+                    System.out.println("DNI ya registrado como alumno o profesor, introdúcelo de nuevo:");
+                    dniExiste = true;
+                }
             }
-            while (!persona.validarNIF(dni)) ;
+                    System.out.println("Profesor eliminado: ");
+
+        } while (!dniValido || dniExiste);
 
         return dni;
     }
+
 
     /**
      * Método auxiliar para leer el curso del alumno, asegurándose de que sea válido.
