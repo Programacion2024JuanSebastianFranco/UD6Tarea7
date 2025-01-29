@@ -185,8 +185,12 @@ public class instituto {
             return "Posición inválida";
         }
 
-        System.arraycopy(alumnos, posicion + 1, alumnos, posicion, alumnos.length - posicion - 1);
-        alumnos = Arrays.copyOf(alumnos, alumnos.length - 1);
+        for (int i = 0; i < alumnos.length; i++){
+            if (i == posicion){
+                alumnos[i] = alumnos[i + 1];
+                alumnos[i] = null;
+            }
+        }
 
         return mostrarAlumnos();
     }
@@ -197,8 +201,12 @@ public class instituto {
             return "Posición inválida";
         }
 
-        System.arraycopy(profesores, posicion + 1, profesores, posicion, profesores.length - posicion - 1);
-        profesores = Arrays.copyOf(profesores, profesores.length - 1);
+        for (int i = 0; i < profesores.length; i++){
+            if (i == posicion){
+                profesores[i] = profesores[i + 1];
+                profesores[i] = null;
+            }
+        }
 
         return mostrarProfesores();
     }
