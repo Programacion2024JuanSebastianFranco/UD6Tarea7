@@ -1,10 +1,10 @@
 package model;
 
-public class profesor extends persona{
+public class Profesor extends Persona {
 
     private int sueldo;
 
-    public profesor(String dni, String nombre, int edad, int sueldo) {
+    public Profesor(String dni, String nombre, int edad, int sueldo) {
         super(dni, nombre, edad);
         this.sueldo = sueldo;
     }

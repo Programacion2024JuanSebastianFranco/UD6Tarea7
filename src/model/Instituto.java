@@ -1,12 +1,12 @@
 package model;
 import java.util.Scanner;
-import static model.curso.*;
+import static model.Curso.*;
 
 /**
  * Clase que gestiona un instituto con alumnos y profesores.
  * Permite agregar nuevos alumnos y profesores, y mostrar los registros.
  */
-public class instituto {
+public class Instituto {
 
     Scanner scan = new Scanner(System.in); // Instancia para la entrada del usuario
 
@@ -14,7 +14,7 @@ public class instituto {
     private alumno[] alumnos;
     private static int MAX_ALUMNOS = 3;
     private int totalAlumnos;
-    private profesor[] profesores;
+    private Profesor[] profesores;
     private static int MAX_PROFESORES = 2;
     private int totalProfesores;
 
@@ -23,9 +23,9 @@ public class instituto {
      * Constructor que inicializa los arreglos de alumnos y profesores,
      * y establece los contadores de total de alumnos y profesores.
      */
-    public instituto() {
+    public Instituto() {
         this.alumnos = new alumno[MAX_ALUMNOS];
-        this.profesores = new profesor[MAX_PROFESORES];
+        this.profesores = new Profesor[MAX_PROFESORES];
         totalProfesores = 0;
         totalAlumnos = 0;
     }
@@ -44,8 +44,8 @@ public class instituto {
 
         if (totalProfesores < MAX_PROFESORES) {
             // Se cargan dos profesores de prueba.
-            profesores[totalProfesores++] = new profesor("11223344C", "Profesor1", 40, 2000);
-            profesores[totalProfesores++] = new profesor("44332211D", "Profesor2", 35, 2500);
+            profesores[totalProfesores++] = new Profesor("11223344C", "Profesor1", 40, 2000);
+            profesores[totalProfesores++] = new Profesor("44332211D", "Profesor2", 35, 2500);
         }
     }
 
@@ -61,7 +61,7 @@ public class instituto {
             String nombre = scan.nextLine();
             int edad = leerEdad();
             String dni = leerDNI();
-            curso curso = leerCurso();
+            Curso curso = leerCurso();
 
             // Se crea y agrega un nuevo alumno al arreglo.
             alumno nuevo = new alumno(dni, nombre, edad, curso);
@@ -88,7 +88,7 @@ public class instituto {
             int sueldo = scan.nextInt();
 
             // Se crea y agrega un nuevo profesor al arreglo.
-            profesor nuevo = new profesor(dni, nombre, edad, sueldo);
+            Profesor nuevo = new Profesor(dni, nombre, edad, sueldo);
             profesores[totalProfesores] = nuevo;
             totalProfesores++;
         } else {
@@ -135,7 +135,7 @@ public class instituto {
         int contadorProfesores = 0;
 
         // Se recorre el arreglo de profesores y se añaden los que no sean nulos.
-        for (profesor profesor : profesores) {
+        for (Profesor profesor : profesores) {
             if (profesor != null) {
                 salida.append("Profesor: ").append(profesor).append("\n");
                 contadorProfesores++;
@@ -230,7 +230,7 @@ public class instituto {
         return mostrarAlumnos();
     }
 
-    public String modificarProfesor(profesor profesor) {
+    public String modificarProfesor(Profesor profesor) {
         for (int i = 0; i < profesores.length; i++) {
             if (profesor.equals(profesores[i])) {
                 profesores[i] = profesor;
@@ -283,7 +283,7 @@ public class instituto {
 
         do {
             dni = scan.nextLine();
-            dniValido = persona.validarNIF(dni);
+            dniValido = Persona.validarNIF(dni);
             dniExiste = false;
 
             if (!dniValido) {
@@ -306,9 +306,9 @@ public class instituto {
      *
      * @return El curso seleccionado por el usuario.
      */
-    private curso leerCurso() {
+    private Curso leerCurso() {
         int cur;
-        curso cursos = null;
+        Curso cursos = null;
 
         do {
             System.out.println("Introduce el curso (1. DAM, 2. DAW, 3. SMR):");

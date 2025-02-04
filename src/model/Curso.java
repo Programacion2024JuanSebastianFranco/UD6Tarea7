@@ -1,5 +1,5 @@
 package model;
 
-public enum curso {
+public enum Curso {
     DAM, DAW, SMR
 }

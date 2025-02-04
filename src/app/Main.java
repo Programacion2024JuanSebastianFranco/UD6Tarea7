@@ -1,8 +1,8 @@
 package app;
 import model.alumno;
-import model.curso;
-import model.instituto;
-import model.profesor;
+import model.Curso;
+import model.Instituto;
+import model.Profesor;
 
 import java.util.Scanner;
 
@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        instituto instituto = new instituto();
+        Instituto instituto = new Instituto();
 
         instituto.cargarDatosPrueba();
 
@@ -59,12 +59,12 @@ public class Main {
                 }
 
                 case 9 -> {
-                    alumno alumno = new alumno("12345678z", "juan", 22, curso.DAW);
+                    alumno alumno = new alumno("12345678z", "juan", 22, Curso.DAW);
                     instituto.modificarAlumno(alumno);
                 }
 
                 case 10 -> {
-                     profesor profesor = new profesor("11223344C", "jaime", 23, 1300);
+                     Profesor profesor = new Profesor("11223344C", "jaime", 23, 1300);
                     instituto.modificarProfesor(profesor);
                 }
 
