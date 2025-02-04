@@ -9,7 +9,6 @@ public abstract class Persona {
     private int edad;
     static final Scanner scan = new Scanner(System.in);
 
-
     public Persona(String dni, String nombre, int edad) {
         setDni(dni);
         this.nombre = nombre;
@@ -77,30 +76,31 @@ public abstract class Persona {
     public abstract void leerDatos();
 
     protected void leerDatosPersona() {
-        Scanner sc = new Scanner(System.in);
         System.out.print("Introduzca el nombre: ");
-        nombre = sc.nextLine();
+        nombre = scan.nextLine();
         this.dni = leerDni();
         this.edad = leerEdad();
     }
 
     private String leerDni() {
+        Scanner sc = new Scanner(System.in);
         String dni;
         do {
             System.out.print("Introduce el DNI: ");
-            dni = scan.nextLine();
+            dni = sc.nextLine();
         } while (!esCorrectoNIF(dni));
         return dni;
     }
 
     public int leerEdad() {
+        Scanner sc = new Scanner(System.in);
         do {
             System.out.print("Dime la edad: ");
-            while (!scan.hasNextInt()) {
+            while (!sc.hasNextInt()) {
                 System.out.println("Entrada incorrecta. Ingrese un número:");
-                scan.next();
+                sc.next();
             }
-            edad = scan.nextInt();
+            edad = sc.nextInt();
         } while (edad < 0);
         return edad;
     }
