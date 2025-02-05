@@ -14,10 +14,10 @@ public class Main {
         do {
             opcion = mostrarMenu();
             switch (opcion) {
-                case 1 -> principal.instituto.nuevoAlumno1(new Alumno());
-                case 2 -> principal.instituto.nuevoProfesor1(new Profesor());
-                case 3 -> System.out.println(principal.instituto.mostrarAlu());
-                case 4 -> System.out.println(principal.instituto.mostrarProfe());
+                case 1 -> principal.instituto.nuevoAlumno(new Alumno());
+                case 2 -> principal.instituto.nuevoProfesor(new Profesor());
+                case 3 -> System.out.println(principal.instituto.mostrarAlumno());
+                case 4 -> System.out.println(principal.instituto.mostrarProfesor());
                 case 5 -> {
                     Alumno alumno = new Alumno("98765432A", "Carlos", 20, Curso.DAW);
                     principal.instituto.modificarAlumno(alumno);
@@ -27,84 +27,97 @@ public class Main {
                     principal.instituto.modificarProfesor(profesor);
                 }
                 case 7 -> {
-                    System.out.println("Dime el DNI del conserje a modificar");
-                    String dniConserMod = scan.nextLine();
-                    Conserje conserje = new Conserje(dniConserMod, "Andrés", 38, Turno.MAÑANA);
+                    System.out.println("Ingresa el DNI del conserje que quieres modificar");
+                    String dniConserjeModificar = scan.nextLine();
+                    Conserje conserje = new Conserje(dniConserjeModificar, "Andres", 38, Turno.DIURNO);
                     principal.instituto.modificarConserje(conserje);
                 }
+
                 case 8 -> {
-                    System.out.println("Dime el DNI del profesor a eliminar");
-                    String dniProfe = scan.nextLine();
-                    if (principal.instituto.existeDniProf(dniProfe)) {
-                        principal.instituto.borrarProfe(dniProfe);
-                    } else {
-                        System.out.println("El profesor con el DNI especificado no existe.");
-                    }
-                }
-                case 9 -> {
-                    System.out.println("Dime el DNI del alumno a eliminar");
-                    String dniAlu = scan.nextLine();
-                    if (principal.instituto.existeDniAlu(dniAlu)) {
-                        principal.instituto.borrarAlu(dniAlu);
-                    } else {
-                        System.out.println("El alumno con el DNI especificado no existe.");
-                    }
-                }
-                case 10 -> {
-                    System.out.println("Dime el DNI del conserje a eliminar");
-                    String dniCons = scan.nextLine();
-                    if (principal.instituto.existeDniConser(dniCons)) {
-                        principal.instituto.borrarConserje(dniCons);
-                    } else {
-                        System.out.println("El conserje con el DNI especificado no existe.");
-                    }
-                }
-                case 11 -> {
-                    System.out.println("Dime el DNI del alumno a buscar");
-                    String dniAlumno = scan.nextLine();
-                    if (principal.instituto.existeDniAlu(dniAlumno)) {
-                        System.out.println(principal.instituto.buscarAlumno(dniAlumno));
-                    } else {
-                        System.out.println("El alumno con el DNI especificado no existe.");
-                    }
-                }
-                case 12 -> {
-                    System.out.println("Dime el DNI del profesor a buscar");
+                    System.out.println("Ingresa el DNI del profesor que quieres eliminar");
                     String dniProfesor = scan.nextLine();
-                    if (principal.instituto.existeDniProf(dniProfesor)) {
-                        System.out.println(principal.instituto.buscarProfesor(dniProfesor));
+                    if (principal.instituto.existeDniProfesor(dniProfesor)) {
+                        principal.instituto.borrarProfesor(dniProfesor);
                     } else {
-                        System.out.println("El profesor con el DNI especificado no existe.");
+                        System.out.println("No se encontro un profesor con ese DNI");
                     }
                 }
-                case 13 -> principal.instituto.nuevoConserje1(new Conserje());
-                case 14 -> {
-                    System.out.println("Dime el DNI del conserje a buscar");
+
+                case 9 -> {
+                    System.out.println("Ingresa el DNI del alumno que quieres eliminar");
+                    String dniAlumno = scan.nextLine();
+                    if (principal.instituto.existeDniAlumno(dniAlumno)) {
+                        principal.instituto.borrarAlumno(dniAlumno);
+                    } else {
+                        System.out.println("No se encontro un alumno con ese DNI");
+                    }
+                }
+
+                case 10 -> {
+                    System.out.println("Ingresa el DNI del conserje que quieres eliminar");
                     String dniConserje = scan.nextLine();
-                    if (principal.instituto.existeDniConser(dniConserje)) {
-                        System.out.println(principal.instituto.buscarConserje(dniConserje));
+                    if (principal.instituto.existeDniConserje(dniConserje)) {
+                        principal.instituto.borrarConserje(dniConserje);
                     } else {
-                        System.out.println("El conserje con el DNI especificado no existe.");
+                        System.out.println("No se encontro un conserje con ese DNI");
                     }
                 }
+
+                case 11 -> {
+                    System.out.println("Ingresa el DNI del alumno que buscas");
+                    String dniAlumnoBuscar = scan.nextLine();
+                    if (principal.instituto.existeDniAlumno(dniAlumnoBuscar)) {
+                        System.out.println(principal.instituto.buscarAlumno(dniAlumnoBuscar));
+                    } else {
+                        System.out.println("No se encontro un alumno con ese DNI");
+                    }
+                }
+
+                case 12 -> {
+                    System.out.println("Ingresa el DNI del profesor que buscas");
+                    String dniProfesorBuscar = scan.nextLine();
+                    if (principal.instituto.existeDniProfesor(dniProfesorBuscar)) {
+                        System.out.println(principal.instituto.buscarProfesor(dniProfesorBuscar));
+                    } else {
+                        System.out.println("No se encontro un profesor con ese DNI");
+                    }
+                }
+
+                case 13 -> principal.instituto.nuevoConserje1(new Conserje());
+
+                case 14 -> {
+                    System.out.println("Ingresa el DNI del conserje que buscas");
+                    String dniConserjeBuscar = scan.nextLine();
+                    if (principal.instituto.existeDniConserje(dniConserjeBuscar)) {
+                        System.out.println(principal.instituto.buscarConserje(dniConserjeBuscar));
+                    } else {
+                        System.out.println("No se encontro un conserje con ese DNI");
+                    }
+                }
+
                 case 15 -> System.out.println(principal.instituto.mostrarConserje());
+
                 case 16 -> {
-                    System.out.println("Dime el DNI del alumno para verificar existencia");
-                    String dniAlumVer = scan.nextLine();
-                    System.out.println(principal.instituto.existeDniAlu(dniAlumVer));
+                    System.out.println("Ingresa el DNI del alumno para verificar si existe");
+                    String dniAlumnoVerificar = scan.nextLine();
+                    System.out.println(principal.instituto.existeDniAlumno(dniAlumnoVerificar));
                 }
+
                 case 17 -> {
-                    System.out.println("Dime el DNI del profesor para verificar existencia");
-                    String dniProfVer = scan.nextLine();
-                    System.out.println(principal.instituto.existeDniProf(dniProfVer));
+                    System.out.println("Ingresa el DNI del profesor para verificar si existe");
+                    String dniProfesorVerificar = scan.nextLine();
+                    System.out.println(principal.instituto.existeDniProfesor(dniProfesorVerificar));
                 }
+
                 case 18 -> {
-                    System.out.println("Dime el DNI del conserje para verificar existencia");
-                    String dniConserVer = scan.nextLine();
-                    System.out.println(principal.instituto.existeDniConserje(dniConserVer));
+                    System.out.println("Ingresa el DNI del conserje para verificar si existe");
+                    String dniConserjeVerificar = scan.nextLine();
+                    System.out.println(principal.instituto.existeDniConserje(dniConserjeVerificar));
                 }
-                case 19 -> System.out.println("Saliendo");
-                default -> System.out.println("Error, valor incorrecto");
+
+                case 19 -> System.out.println("Adios");
+                default -> System.out.println("Valor incorrecto");
+
             }
         } while (opcion != 19);
     }
