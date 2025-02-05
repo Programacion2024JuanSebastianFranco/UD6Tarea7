@@ -153,6 +153,7 @@ public class Main {
             opcion = scan.nextInt();
             scan.nextLine();
         } while (opcion < 1 || opcion > 19);
+
         return opcion;
     }
 }
