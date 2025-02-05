@@ -1,5 +1,4 @@
 package app;
-
 import model.*;
 
 import java.util.Scanner;
