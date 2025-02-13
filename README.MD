@@ -48,6 +48,7 @@ Codigo con error "NumberFormatException"
     ArithmeticException (division entre 0)
 
     b. Son unchecked exceptions (RuntimeException).
+
 ---
 
 ## 6. 
