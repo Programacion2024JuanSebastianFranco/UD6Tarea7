@@ -1,8 +1,8 @@
 package model;
 
 /**
- * Clase Instituto que gestiona los alumnos, profesores y conserjes de una institución educativa.
- * Permite realizar operaciones como agregar, modificar, eliminar y consultar personas (alumnos, profesores, conserjes).
+ * Clase Instituto que gestiona los alumnos, profesores y conserjes de una institucion educativa.
+ * Permite realizar operaciones como agregar, modificar, eliminar y consultar personas.
  */
 public class Instituto {
     // Arreglos para almacenar las personas de tipo Alumno, Profesor y Conserje
@@ -35,8 +35,12 @@ public class Instituto {
     /**
      * Método para agregar un nuevo alumno al instituto.
      * @param alumno El objeto Alumno a agregar.
+     * @throws IllegalArgumentException si el alumno es nulo.
      */
     public void nuevoAlumno(Alumno alumno) {
+        if (alumno == null) {
+            throw new IllegalArgumentException("El alumno no puede ser nulo");
+        }
         nuevaPersona(alumnos, alumno, totalAlumnos, max_alumnos);
         totalAlumnos++;
     }
@@ -44,8 +48,12 @@ public class Instituto {
     /**
      * Método para agregar un nuevo profesor al instituto.
      * @param profesor El objeto Profesor a agregar.
+     * @throws IllegalArgumentException si el profesor es nulo.
      */
     public void nuevoProfesor(Profesor profesor) {
+        if (profesor == null) {
+            throw new IllegalArgumentException("El profesor no puede ser nulo");
+        }
         nuevaPersona(profesores, profesor, totalProfesores, max_profesores);
         totalProfesores++;
     }
@@ -53,8 +61,12 @@ public class Instituto {
     /**
      * Método para agregar un nuevo conserje al instituto.
      * @param conserje El objeto Conserje a agregar.
+     * @throws IllegalArgumentException si el conserje es nulo.
      */
     public void nuevoConserje1(Conserje conserje) {
+        if (conserje == null) {
+            throw new IllegalArgumentException("El conserje no puede ser nulo");
+        }
         nuevaPersona(conserjes, conserje, totalConserjes, max_conserje);
         totalConserjes++;
     }
@@ -65,41 +77,56 @@ public class Instituto {
      * @param persona La persona a agregar (Alumno, Profesor o Conserje).
      * @param totalActual El número actual de personas en el arreglo.
      * @param max El límite máximo de personas en el arreglo.
+     * @throws IllegalArgumentException si la persona es nula o si no hay espacio disponible.
      */
     public void nuevaPersona(Persona[] personas, Persona persona, int totalActual, int max) {
-        if (totalActual < max) {
-            persona.leerDatos(); // Método para leer los datos de la persona.
-            personas[totalActual] = persona; // Se agrega la persona al arreglo.
-        } else {
-            System.out.println("No queda espacio"); // Si ya se alcanzó el límite máximo, se muestra un mensaje de error.
+        if (persona == null) {
+            throw new IllegalArgumentException("La persona no puede ser nula");
         }
+        if (totalActual >= max) {
+            throw new IllegalArgumentException("No queda espacio para agregar mas personas");
+        }
+        persona.leerDatos(); // Se asume que leerDatos es un método que llena los datos de la persona.
+        personas[totalActual] = persona; // Se agrega la persona al arreglo en la posición correspondiente.
     }
 
     /**
-     * Método para verificar si un alumno con el DNI proporcionado ya existe en el instituto.
+     * Verifica si un alumno con el DNI proporcionado ya existe en el instituto.
      * @param dni El DNI del alumno.
      * @return true si el alumno con ese DNI ya existe, false en caso contrario.
+     * @throws IllegalArgumentException si el DNI es nulo o vacío.
      */
     public boolean existeDniAlumno(String dni) {
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
         return existeDni(dni, alumnos); // Llama al método privado que verifica la existencia de un DNI.
     }
 
     /**
-     * Método para verificar si un profesor con el DNI proporcionado ya existe en el instituto.
+     * Verifica si un profesor con el DNI proporcionado ya existe en el instituto.
      * @param dni El DNI del profesor.
      * @return true si el profesor con ese DNI ya existe, false en caso contrario.
+     * @throws IllegalArgumentException si el DNI es nulo o vacío.
      */
     public boolean existeDniProfesor(String dni) {
-        return existeDni(dni, profesores); // Llama al método privado que verifica la existencia de un DNI.
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
+        return existeDni(dni, profesores);
     }
 
     /**
-     * Método para verificar si un conserje con el DNI proporcionado ya existe en el instituto.
+     * Verifica si un conserje con el DNI proporcionado ya existe en el instituto.
      * @param dni El DNI del conserje.
      * @return true si el conserje con ese DNI ya existe, false en caso contrario.
+     * @throws IllegalArgumentException si el DNI es nulo o vacío.
      */
     public boolean existeDniConserje(String dni) {
-        return existeDni(dni, conserjes); // Llama al método privado que verifica la existencia de un DNI.
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
+        return existeDni(dni, conserjes);
     }
 
     /**
@@ -109,41 +136,56 @@ public class Instituto {
      * @return true si la persona con el DNI existe, false en caso contrario.
      */
     private boolean existeDni(String dni, Persona[] personas) {
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
         boolean existe = false;
         for (int i = 0; i < personas.length; i++) {
             if (personas[i] != null && dni.equals(personas[i].getDni())) { // Verifica si el DNI coincide.
-                System.out.println("Error, DNI existente"); // Si el DNI ya existe, se muestra un mensaje de error.
+                System.out.println("Error DNI existente");
                 existe = true;
             }
         }
-        return existe; // Retorna el resultado de la verificación.
+        return existe;
     }
 
     /**
      * Método para buscar a un alumno por su DNI.
      * @param dni El DNI del alumno a buscar.
      * @return El índice del alumno en el arreglo si se encuentra, -1 si no se encuentra.
+     * @throws IllegalArgumentException si el DNI es nulo o vacío.
      */
     public int buscarAlumno(String dni) {
-        return buscarPersonas(dni, alumnos, totalAlumnos); // Llama al método privado para buscar a una persona por su DNI.
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
+        return buscarPersonas(dni, alumnos, totalAlumnos);
     }
 
     /**
      * Método para buscar a un conserje por su DNI.
      * @param dni El DNI del conserje a buscar.
      * @return El índice del conserje en el arreglo si se encuentra, -1 si no se encuentra.
+     * @throws IllegalArgumentException si el DNI es nulo o vacío.
      */
     public int buscarConserje(String dni) {
-        return buscarPersonas(dni, conserjes, totalConserjes); // Llama al método privado para buscar a una persona por su DNI.
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
+        return buscarPersonas(dni, conserjes, totalConserjes);
     }
 
     /**
      * Método para buscar a un profesor por su DNI.
      * @param dni El DNI del profesor a buscar.
      * @return El índice del profesor en el arreglo si se encuentra, -1 si no se encuentra.
+     * @throws IllegalArgumentException si el DNI es nulo o vacío.
      */
     public int buscarProfesor(String dni) {
-        return buscarPersonas(dni, profesores, totalProfesores); // Llama al método privado para buscar a una persona por su DNI.
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
+        return buscarPersonas(dni, profesores, totalProfesores);
     }
 
     /**
@@ -154,6 +196,9 @@ public class Instituto {
      * @return El índice de la persona en el arreglo si se encuentra, -1 si no se encuentra.
      */
     public int buscarPersonas(String dni, Persona[] personas, int totalActual) {
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo o vacio");
+        }
         int posicion = -1;
         int i = 0;
         while (i != totalActual && posicion == -1) {
@@ -163,11 +208,11 @@ public class Instituto {
                 i++;
             }
         }
-        return posicion; // Retorna la posición de la persona o -1 si no se encuentra.
+        return posicion;
     }
 
     /**
-     * Método que muestra la información de todas las personas en un arreglo.
+     * Método para mostrar la información de las personas en un arreglo.
      * @param personas El arreglo de personas (alumnos, profesores o conserjes).
      * @param totalActual El número actual de personas en el arreglo.
      * @return Una cadena de texto con la información de las personas.
@@ -185,113 +230,131 @@ public class Instituto {
                 }
             }
         }
-        return salida.toString(); // Retorna la información formateada de todas las personas.
+        return salida.toString();
     }
 
     /**
-     * Método para mostrar la información de los alumnos.
-     * @return Una cadena de texto con la información de los alumnos.
+     * Método para mostrar todos los alumnos del instituto.
+     * @return Una cadena con la información de todos los alumnos.
      */
     public String mostrarAlumno() {
-        return mostrarPersona(alumnos, totalAlumnos); // Llama a mostrarPersona para los alumnos.
+        return mostrarPersona(alumnos, totalAlumnos);
     }
 
     /**
-     * Método para mostrar la información de los profesores.
-     * @return Una cadena de texto con la información de los profesores.
+     * Método para mostrar todos los profesores del instituto.
+     * @return Una cadena con la información de todos los profesores.
      */
     public String mostrarProfesor() {
-        return mostrarPersona(profesores, totalProfesores); // Llama a mostrarPersona para los profesores.
+        return mostrarPersona(profesores, totalProfesores);
     }
 
     /**
-     * Método para mostrar la información de los conserjes.
-     * @return Una cadena de texto con la información de los conserjes.
+     * Método para mostrar todos los conserjes del instituto.
+     * @return Una cadena con la información de todos los conserjes.
      */
     public String mostrarConserje() {
-        return mostrarPersona(conserjes, totalConserjes); // Llama a mostrarPersona para los conserjes.
+        return mostrarPersona(conserjes, totalConserjes);
     }
 
     /**
-     * Método privado que elimina una persona de un arreglo dado.
+     * Elimina una persona de un arreglo en la posición indicada.
      * @param personas El arreglo de personas (alumnos, profesores o conserjes).
      * @param posicion La posición de la persona a eliminar.
      * @param totalActual El número actual de personas en el arreglo.
+     * @throws IllegalArgumentException si la posición es inválida.
      */
     private void borrarPersona(Persona[] personas, int posicion, int totalActual) {
-        if (posicion >= 0 && posicion < totalActual) {
-            for (int i = posicion; i < totalActual - 1; i++) {
-                personas[i] = personas[i + 1]; // Desplaza las personas hacia la izquierda.
-            }
-            personas[totalActual - 1] = null; // Borra la última persona.
+        if (posicion < 0 || posicion >= totalActual) {
+            throw new IllegalArgumentException("Posicion invalida para borrar");
         }
+        for (int i = posicion; i < totalActual - 1; i++) {
+            personas[i] = personas[i + 1]; // Mueve las personas hacia arriba en el arreglo.
+        }
+        personas[totalActual - 1] = null; // Elimina la última persona.
     }
 
     /**
-     * Método para borrar un profesor del instituto usando su DNI.
+     * Elimina a un profesor del instituto usando su DNI.
      * @param dni El DNI del profesor a eliminar.
      */
     public void borrarProfesor(String dni) {
-        int posicion = buscarProfesor(dni); // Busca al profesor por su DNI.
-        borrarPersona(profesores, posicion, totalProfesores); // Llama a borrarPersona para eliminarlo.
-        totalProfesores--; // Decrementa el contador de profesores.
+        int posicion = buscarProfesor(dni);
+        borrarPersona(profesores, posicion, totalProfesores);
+        totalProfesores--;
     }
 
     /**
-     * Método para borrar un alumno del instituto usando su DNI.
+     * Elimina a un alumno del instituto usando su DNI.
      * @param dni El DNI del alumno a eliminar.
      */
     public void borrarAlumno(String dni) {
-        int indice = buscarAlumno(dni); // Busca al alumno por su DNI.
-        borrarPersona(alumnos, indice, totalAlumnos); // Llama a borrarPersona para eliminarlo.
-        totalAlumnos--; // Decrementa el contador de alumnos.
+        int indice = buscarAlumno(dni);
+        borrarPersona(alumnos, indice, totalAlumnos);
+        totalAlumnos--;
     }
 
     /**
-     * Método para borrar un conserje del instituto usando su DNI.
+     * Elimina a un conserje del instituto usando su DNI.
      * @param dni El DNI del conserje a eliminar.
      */
     public void borrarConserje(String dni) {
-        int indice = buscarConserje(dni); // Busca al conserje por su DNI.
-        borrarPersona(conserjes, indice, totalConserjes); // Llama a borrarPersona para eliminarlo.
-        totalConserjes--; // Decrementa el contador de conserjes.
+        int indice = buscarConserje(dni);
+        borrarPersona(conserjes, indice, totalConserjes);
+        totalConserjes--;
     }
 
     /**
-     * Método privado que modifica los datos de una persona en el arreglo correspondiente.
+     * Modifica los datos de una persona en el arreglo correspondiente.
      * @param personas El arreglo de personas (alumnos, profesores o conserjes).
      * @param persona La persona con los nuevos datos.
      * @param totalActual El número actual de personas en el arreglo.
+     * @throws IllegalArgumentException si la persona es nula.
      */
     private void modificarPersona(Persona[] personas, Persona persona, int totalActual) {
+        if (persona == null) {
+            throw new IllegalArgumentException("La persona no puede ser nula");
+        }
         for (int i = 0; i < personas.length; i++) {
-            if (persona.getDni().equals(personas[i].getDni())) { // Si el DNI coincide, se modifica la persona.
-                personas[i] = persona;
+            if (persona.getDni().equals(personas[i].getDni())) {
+                personas[i] = persona; // Reemplaza la persona en el arreglo.
             }
         }
     }
 
     /**
-     * Método para modificar los datos de un alumno.
-     * @param alumno El objeto Alumno con los nuevos datos.
+     * Modifica los datos de un alumno en el instituto.
+     * @param alumno El alumno con los nuevos datos.
+     * @throws IllegalArgumentException si el alumno es nulo.
      */
     public void modificarAlumno(Alumno alumno) {
-        modificarPersona(alumnos, alumno, totalAlumnos); // Llama a modificarPersona para los alumnos.
+        if (alumno == null) {
+            throw new IllegalArgumentException("El alumno no puede ser nulo");
+        }
+        modificarPersona(alumnos, alumno, totalAlumnos);
     }
 
     /**
-     * Método para modificar los datos de un profesor.
-     * @param profesor El objeto Profesor con los nuevos datos.
+     * Modifica los datos de un profesor en el instituto.
+     * @param profesor El profesor con los nuevos datos.
+     * @throws IllegalArgumentException si el profesor es nulo.
      */
     public void modificarProfesor(Profesor profesor) {
-        modificarPersona(profesores, profesor, totalProfesores); // Llama a modificarPersona para los profesores.
+        if (profesor == null) {
+            throw new IllegalArgumentException("El profesor no puede ser nulo");
+        }
+        modificarPersona(profesores, profesor, totalProfesores);
     }
 
     /**
-     * Método para modificar los datos de un conserje.
-     * @param conserje El objeto Conserje con los nuevos datos.
+     * Modifica los datos de un conserje en el instituto.
+     * @param conserje El conserje con los nuevos datos.
+     * @throws IllegalArgumentException si el conserje es nulo.
      */
     public void modificarConserje(Conserje conserje) {
-        modificarPersona(conserjes, conserje, totalConserjes); // Llama a modificarPersona para los conserjes.
+        if (conserje == null) {
+            throw new IllegalArgumentException("El conserje no puede ser nulo");
+        }
+        modificarPersona(conserjes, conserje, totalConserjes);
     }
 }

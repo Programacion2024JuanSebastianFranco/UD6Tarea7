@@ -4,9 +4,9 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * Clase abstracta Persona que representa una persona genérica con atributos comunes
- * como DNI, nombre y edad. Los métodos heredados son utilizados para obtener y modificar
- * estos atributos. Esta clase también valida el formato del DNI.
+ * Clase abstracta Persona que representa una persona generica con atributos comunes
+ * como DNI, nombre y edad. Los metodos heredados son utilizados para obtener y modificar
+ * estos atributos. Esta clase valida el formato del DNI.
  */
 public abstract class Persona {
     // Atributos comunes para todas las personas (DNI, nombre, edad).
@@ -25,13 +25,17 @@ public abstract class Persona {
      * @param edad La edad de la persona.
      */
     public Persona(String dni, String nombre, int edad) {
-        setDni(dni); // Establece el DNI utilizando la validación.
+        try {
+            setDni(dni); // Establece el DNI utilizando la validacion.
+        } catch (IllegalArgumentException e) {
+            this.dni = "Sin DNI"; // Si hay error, se asigna "Sin DNI"
+        }
         this.nombre = nombre;
         this.edad = edad;
     }
 
     /**
-     * Constructor sin parámetros, útil para instanciación sin datos iniciales.
+     * Constructor sin parametros, util para instanciacion sin datos iniciales.
      */
     public Persona() {}
 
@@ -81,45 +85,45 @@ public abstract class Persona {
     }
 
     /**
-     * Setter para el DNI de la persona. Si el DNI proporcionado no es válido, se establece
+     * Setter para el DNI de la persona. Si el DNI proporcionado no es valido, se establece
      * como "Sin DNI".
      *
      * @param dni El DNI de la persona.
      */
     public void setDni(String dni) {
         if (esCorrectoNIF(dni)) {
-            this.dni = dni; // Si el DNI es válido, se asigna.
+            this.dni = dni; // Si el DNI es valido, se asigna.
         } else {
-            this.dni = "Sin DNI"; // Si el DNI no es válido, se asigna un valor predeterminado.
+            throw new IllegalArgumentException("Datos Incorrectos"); // Lanza excepcion sin mensaje si es invalido
         }
     }
 
     /**
-     * Método estático que valida si el formato del DNI es correcto.
+     * Metodo estatico que valida si el formato del DNI es correcto.
      *
      * @param NIF El DNI a validar.
-     * @return true si el DNI es válido, false si no lo es.
+     * @return true si el DNI es valido, false si no lo es.
      */
     public static boolean esCorrectoNIF(String NIF) {
-        // Verificación básica del formato del NIF (9 caracteres: 8 dígitos + 1 letra).
+        // Verificacion basica del formato del NIF (9 caracteres: 8 digitos + 1 letra).
         if (NIF.length() != 9) return false;
 
         for (int i = 0; i < 8; i++) {
-            if (!Character.isDigit(NIF.charAt(i))) return false; // Los primeros 8 caracteres deben ser dígitos.
+            if (!Character.isDigit(NIF.charAt(i))) return false; // Los primeros 8 caracteres deben ser digitos.
         }
 
-        // La última posición debe ser una letra, que se verifica con la lista de letras asociadas a los números.
+        // La ultima posicion debe ser una letra, que se verifica con la lista de letras asociadas a los numeros.
         char letra = Character.toUpperCase(NIF.charAt(8));
         if (!Character.isLetter(letra)) return false;
 
-        // Lista de letras que se corresponden con cada número del DNI.
+        // Lista de letras que se corresponden con cada numero del DNI.
         String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
-        int num = Integer.parseInt(NIF.substring(0, 8)); // Se extraen los primeros 8 caracteres como número.
-        return letra == letras.charAt(num % 23); // Se valida la letra usando el número y el módulo 23.
+        int num = Integer.parseInt(NIF.substring(0, 8)); // Se extraen los primeros 8 caracteres como numero.
+        return letra == letras.charAt(num % 23); // Se valida la letra usando el numero y el modulo 23.
     }
 
     /**
-     * Método que compara dos objetos Persona para ver si son iguales, basándose en su DNI.
+     * Metodo que compara dos objetos Persona para ver si son iguales, basandose en su DNI.
      *
      * @param o El objeto a comparar.
      * @return true si ambos objetos son iguales, false si no lo son.
@@ -133,9 +137,9 @@ public abstract class Persona {
     }
 
     /**
-     * Método que genera un código hash basado en el DNI de la persona.
+     * Metodo que genera un codigo hash basado en el DNI de la persona.
      *
-     * @return El código hash basado en el DNI.
+     * @return El codigo hash basado en el DNI.
      */
     @Override
     public int hashCode() {
@@ -143,28 +147,33 @@ public abstract class Persona {
     }
 
     /**
-     * Método abstracto que debe ser implementado por las clases hijas para leer los datos
-     * específicos de cada tipo de persona (alumno, profesor, etc.).
+     * Metodo abstracto que debe ser implementado por las clases hijas para leer los datos
+     * especificos de cada tipo de persona (alumno, profesor, etc.).
      */
     public abstract void leerDatos();
 
     /**
-     * Método protegido para leer los datos comunes de una persona (nombre, DNI, edad).
-     * Este método es usado por las clases hijas para realizar la lectura de datos de manera
+     * Metodo protegido para leer los datos comunes de una persona (nombre, DNI, edad).
+     * Este metodo es usado por las clases hijas para realizar la lectura de datos de manera
      * consistente.
      */
     protected void leerDatosPersona() {
         // Solicita al usuario que ingrese el nombre, DNI y edad.
         System.out.print("Introduzca el nombre: ");
         nombre = scan.nextLine();
-        this.dni = leerDni(); // Llama al método leerDni() para asegurar que el DNI sea correcto.
-        this.edad = leerEdad(); // Llama al método leerEdad() para asegurar que la edad sea válida.
+        try {
+            this.dni = leerDni(); // Llama al metodo leerDni() para asegurar que el DNI es correcto.
+        } catch (IllegalArgumentException e) {
+            this.dni = "Sin DNI"; // Si hay error, se asigna "Sin DNI"
+        }
+        this.edad = leerEdad(); // Llama al metodo leerEdad() para asegurar que la edad es valida.
     }
 
     /**
-     * Método privado que lee un DNI válido desde la entrada del usuario.
+     * Metodo privado que lee un DNI valido desde la entrada del usuario.
      *
-     * @return El DNI válido introducido por el usuario.
+     * @return El DNI valido introducido por el usuario.
+     * @throws IllegalArgumentException si el DNI no es valido.
      */
     private String leerDni() {
         Scanner sc = new Scanner(System.in);
@@ -172,23 +181,25 @@ public abstract class Persona {
         do {
             System.out.print("Introduzca el DNI: ");
             dni = sc.nextLine();
-        } while (!esCorrectoNIF(dni)); // Asegura que el DNI es válido.
+            if (!esCorrectoNIF(dni)) {
+                dni = "Sin DNI"; // No es necesario mensaje de error
+            }
+        } while (!esCorrectoNIF(dni)); // Asegura que el DNI es valido.
         return dni;
     }
 
     /**
-     * Método que lee la edad de la persona desde la entrada del usuario.
-     * Si se ingresa un valor no válido, se sigue pidiendo hasta que se ingrese un número entero
+     * Metodo que lee la edad de la persona desde la entrada del usuario.
+     * Si se ingresa un valor no valido, se sigue pidiendo hasta que se ingrese un numero entero
      * mayor o igual a 0.
      *
-     * @return La edad válida introducida por el usuario.
+     * @return La edad valida introducida por el usuario.
      */
     public int leerEdad() {
         Scanner sc = new Scanner(System.in);
         do {
             System.out.print("Introduzca la edad: ");
             while (!sc.hasNextInt()) {
-                System.out.println("Ingrese un numero:");
                 sc.next(); // Limpia la entrada incorrecta.
             }
             edad = sc.nextInt();
